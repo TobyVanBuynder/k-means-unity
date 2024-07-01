@@ -36,9 +36,9 @@ public class Generator : MonoBehaviour, IGenerator
         UpdateActiveObjects(count);
     }
 
-    public ICollection<GameObject> GetActiveObjects()
+    public List<GameObject> GetActiveObjects()
     {
-        ICollection<GameObject> list = new List<GameObject>(GetActiveCount());
+        List<GameObject> list = new List<GameObject>(GetActiveCount());
 
         IEnumerator<GameObject> iterator = _spawnedObjects.GetEnumerator();
         for (int i = 0; i < GetActiveCount(); i++)

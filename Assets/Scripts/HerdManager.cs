@@ -1,32 +1,45 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+using Cluster = System.Collections.Generic.List<UnityEngine.Transform>;
 
 public class HerdManager : MonoBehaviour
 {
-    [SerializeField] int _numHerds = 3;
-    [SerializeField] IGenerator _generator;
+    [SerializeField] int _numActiveHerds = 4;
+    [SerializeField] Generator _generator;
 
     ICollection<Herd> _herds;
+    List<Cluster> _cachedClustersList;
     IHerdFactory _herdFactory;
 
     void Awake()
     {
-        _herds = new List<Herd>();
-        _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 0.8f, 0.75f, 1f);
         if (_generator == null)
         {
             enabled = false;
+            return;
+        }
+
+        _herds = new List<Herd>(_numActiveHerds);
+        _cachedClustersList = new List<Cluster>(_numActiveHerds);
+        _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 1f, 0f, 1f);
+
+        if (_numActiveHerds > 0)
+        {
+            CreateExtraHerds(_numActiveHerds);
         }
     }
 
-    public void SetNumberOfHerds(int numHerds)
+    // TODO: implement with UI
+    void SetNumberOfHerds(int numHerds)
     {
-        _numHerds = numHerds;
-
-        if (numHerds > _numHerds)
+        if (numHerds > _numActiveHerds)
         {
-            CreateExtraHerds(numHerds - _numHerds);
+            CreateExtraHerds(numHerds - _numActiveHerds);
         }
+
+        _numActiveHerds = numHerds;
 
         UpdateClusters();
     }
@@ -40,6 +53,7 @@ public class HerdManager : MonoBehaviour
     {
         ClearHerds();
         GenerateClusters();
+        AssignClustersToHerds();
         UpdateHerds();
     }
 
@@ -53,7 +67,33 @@ public class HerdManager : MonoBehaviour
 
     private void GenerateClusters()
     {
-        // Kmeans logic
+        List<Transform> activeObjectTransforms = _generator.GetActiveObjects().Select((go) => go.transform).ToList();
+        
+        KMeans.Naive(
+            activeObjectTransforms,
+            _cachedClustersList,
+            _numActiveHerds,
+            KMeans.Dimensions.TWO
+        );
+    }
+
+    private void AssignClustersToHerds()
+    {
+        IEnumerator<Herd> herdEnumerator = _herds.GetEnumerator();
+        IEnumerator<Cluster> clusterEnumerator = _cachedClustersList.GetEnumerator();
+
+        while (herdEnumerator.MoveNext() && clusterEnumerator.MoveNext())
+        {
+            AssignClusterToHerd(clusterEnumerator.Current, herdEnumerator.Current);
+        }
+    }
+
+    private void AssignClusterToHerd(Cluster cluster, Herd herd)
+    {
+        foreach (Transform cattleTransform in cluster)
+        {
+            herd.Assign(cattleTransform.GetComponent<Cattle>());
+        }
     }
 
     private void UpdateHerds()
@@ -69,6 +109,7 @@ public class HerdManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             _herds.Add(_herdFactory.Create());
+            _cachedClustersList.Add(new Cluster());
         }
     }
 }

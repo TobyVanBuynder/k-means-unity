@@ -7,6 +7,7 @@ public class DebugShortcuts : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             FindObjectOfType<Generator>().ScatterActiveObjects();
+            FindObjectOfType<HerdManager>().ForceUpdateClusters();
         }
 
         if (Input.GetKeyDown(KeyCode.K))
