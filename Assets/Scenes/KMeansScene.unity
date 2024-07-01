@@ -170,7 +170,7 @@ MonoBehaviour:
   _parentTransform: {fileID: 1595036684}
   _prefabToSpawn: {fileID: 3587696911449221932, guid: 548ec102a562909459a53adfd9a0a16c,
     type: 3}
-  _spawnRadius: 34.92
+  _spawnRadius: 1
   _gizmoColor: {r: 0.09416164, g: 0.64191395, b: 0.8679245, a: 1}
 --- !u!4 &230844538
 Transform:
@@ -471,6 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1bf050a2c88b34d940c131df35e4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _numHerds: 3
 --- !u!4 &599538851
 Transform:
   m_ObjectHideFlags: 0

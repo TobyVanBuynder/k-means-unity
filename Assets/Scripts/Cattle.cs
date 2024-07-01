@@ -1,19 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cattle : MonoBehaviour
 {
-    Herd _assignedHerd;
+    ICattleVisual _visual;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        _visual = GetComponentInChildren<CattleVisual>();
+
+        if (_visual == null)
+        {
+            enabled = false;
+        }
     }
 
-    public void SetHerd(Herd herd)
+    public void Reset()
     {
-        
+        _visual.Reset();
+    }
+
+    public void Accept(ICattleVisitor visitor)
+    {
+        visitor.VisitVisual(_visual);
     }
 }

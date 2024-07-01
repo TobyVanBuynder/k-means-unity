@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Generator : MonoBehaviour
+public class Generator : MonoBehaviour, IGenerator
 {
     [SerializeField] private Transform _parentTransform;
     [SerializeField] private GameObject _prefabToSpawn;
-    [SerializeField] private float _spawnRadius = 1f;
+    [SerializeField] private float _spawnRadius = 20f;
 
     // TODO: use object pooling instead
-    List<GameObject> _spawnedObjects;
+    private ICollection<GameObject> _spawnedObjects;
+    private int _numActiveObjects = 0;
+
 
     void Awake()
     {
@@ -31,7 +33,43 @@ public class Generator : MonoBehaviour
             CreateNewObjects(count - _spawnedObjects.Count);
         }
         
-        SetObjectsToActive(count);
+        UpdateActiveObjects(count);
+    }
+
+    public ICollection<GameObject> GetActiveObjects()
+    {
+        ICollection<GameObject> list = new List<GameObject>(GetActiveCount());
+
+        IEnumerator<GameObject> iterator = _spawnedObjects.GetEnumerator();
+        for (int i = 0; i < GetActiveCount(); i++)
+        {
+            iterator.MoveNext();
+            list.Add(iterator.Current);
+        }
+        iterator.Dispose();
+
+        return list;
+    }
+
+    public int GetActiveCount()
+    {
+        return _numActiveObjects;
+    }
+
+    public void ScatterActiveObjects()
+    {
+        IEnumerator<GameObject> iterator = _spawnedObjects.GetEnumerator();
+
+        for (int i = 0; i < GetActiveCount(); i++)
+        {
+            iterator.MoveNext();
+            iterator.Current.transform.SetPositionAndRotation(
+                Utils.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
+                Utils.RandomScaledQuaternion(Vector3.up)
+            );
+        }
+
+        iterator.Dispose();
     }
 
     private void CreateNewObjects(int count)
@@ -42,26 +80,40 @@ public class Generator : MonoBehaviour
         }
     }
 
-    private void SetObjectsToActive(int count)
+    private void UpdateActiveObjects(int count)
     {
-        for (int a = 0; a < count; a++)
+        int activeObjectCount = count;
+        int inactiveObjectCount = _spawnedObjects.Count - count;
+
+        IEnumerator<GameObject> iterator = _spawnedObjects.GetEnumerator();
+        SetNumObjectsActiveState(iterator, activeObjectCount, true);
+        SetNumObjectsActiveState(iterator, inactiveObjectCount, false);
+        iterator.Dispose();
+
+        _numActiveObjects = activeObjectCount;
+    }
+
+    private void SetNumObjectsActiveState(IEnumerator<GameObject> iterator, int count, bool activeState)
+    {
+        for (int i = 0; i < count; i++)
         {
-            _spawnedObjects[a].SetActive(true);
+            iterator.MoveNext();
+            iterator.Current.SetActive(activeState);
         }
-        for (int b = count; b < _spawnedObjects.Count; b++)
-        {
-            _spawnedObjects[b].SetActive(false);
-        }
+    }
+
+    private Vector3 GetFloorPosition()
+    {
+        Vector3 floorPosition = transform.position;
+        floorPosition.y = 0;
+        return floorPosition;
     }
 
     private GameObject InstantiateSpawnObject()
     {
-        Vector3 floorPosition = transform.position;
-        floorPosition.y = 0;
-
         return Instantiate(
             _prefabToSpawn,
-            Utils.RandomPositionInCircle(floorPosition, _spawnRadius),
+            Utils.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
             Utils.RandomScaledQuaternion(Vector3.up),
             _parentTransform
         );
@@ -77,24 +129,4 @@ public class Generator : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _spawnRadius);
     }
     #endif
-
-    // Object pooling code
-    /* private ObjectPool<GameObject> _objectPool;
-    _objectPool = new ObjectPool<GameObject>(OnCreatePooledObject, OnGetPooledObject, OnReleasePooledObject, OnDestroyPooledObject);
-    private GameObject OnCreatePooledObject()
-    {
-        return Instantiate(_prefabToSpawn, GetRandomPosition(), Quaternion.identity, _parentTransform);
-    }
-    private void OnGetPooledObject(GameObject @object)
-    {
-        @object.SetActive(true);
-    }
-    private void OnReleasePooledObject(GameObject @object)
-    {
-        @object.SetActive(false);
-    }
-    private void OnDestroyPooledObject(GameObject @object)
-    {
-        Destroy(@object);
-    } */
 }
