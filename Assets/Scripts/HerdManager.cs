@@ -26,7 +26,7 @@ public class HerdManager : MonoBehaviour
 
         _herds = new List<Herd>(_numActiveHerds);
         _cachedClustersList = new List<TransformList>(_numActiveHerds);
-        _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 1f, 0f, 1f);
+        _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 1f, 0.5f, 1f);
 
         if (_numActiveHerds > 0)
         {
