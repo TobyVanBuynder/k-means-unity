@@ -7,12 +7,8 @@ public static class KMeans
 {
     public enum Dimensions{ TWO, THREE }
 
-    // TODO: move these to parameters
-    private static int MAX_ITERATIONS{ get{ return 20; }}
-    private static float MAX_ERROR_RATE{ get{ return 0.3f; }}
-
     // TODO: update Naive with PlusPlus improvements
-    public static (float[] distributions, float errorRate, int iterations) Naive(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE)
+    public static (float[] distributions, float errorRate, int iterations) Naive(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 1.5f)
     {
         // Pre-create needed variables
         List<Vector3> centroids = new List<Vector3>(numClusters);
@@ -112,7 +108,7 @@ public static class KMeans
             }
             errorRate += Mathf.Abs(distributions[0] - distributions[numClusters-1]);
             errorRate = Mathf.Sqrt(errorRate / numClusters);
-        } while ((errorRate > 1.7f) && (it < 5));
+        } while ((errorRate > maxErrorRate) && (it < maxIterations));
 
         return (distributions, errorRate, it);
     }
@@ -120,12 +116,12 @@ public static class KMeans
     // Optimized initialization method 
     // https://www.geeksforgeeks.org/ml-k-means-algorithm/
     // http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
-    public static (float[] distributions, float errorRate, int iterations) PlusPlus(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int initialRandomIndex = -1)
+    // Much more accurate at the cost of extra power
+    public static (float[] distributions, float errorRate, int iterations) PlusPlus(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 0.3f, int initialRandomIndex = -1)
     {
         // Pre-create needed variables
         List<Vector3> centroids = new List<Vector3>(numClusters);
         int[] randomIndices = new int[numClusters];
-        bool isChosenAlready = false;
         bool reiterate = false;
         float[] distributions = new float[numClusters];
         float avgExpectedDistribution = 1 / numClusters;
@@ -173,7 +169,7 @@ public static class KMeans
                 for(int d = 0; d < dataSet.Count; d++)
                 {
                     // Check if this data point has already been chosen
-                    isChosenAlready = false;
+                    bool isChosenAlready = false;
                     for(int p = 0; p < c; p++)
                     {
                         if (d == randomIndices[p] && !isChosenAlready)
@@ -204,7 +200,7 @@ public static class KMeans
             // Make sure the clusters are empty
             for(int l = 0; l < numClusters; l++)
             {
-                if(finalClusters[l].Count > 0) finalClusters[l].RemoveAll((tf) => true);
+                if(finalClusters[l].Count > 0) finalClusters[l].Clear();
             }
 
             // Start comparing distances per other data point in the set, excluding the preselected data points
@@ -263,7 +259,7 @@ public static class KMeans
             errorRate += Mathf.Abs(distributions[0] - avgExpectedDistribution);
             
             // Make sure the error is low enough
-            reiterate = errorRate > MAX_ERROR_RATE && iterations < MAX_ITERATIONS;
+            reiterate = errorRate > maxErrorRate && iterations < maxIterations;
 
         } while (reiterate);
 
