@@ -11,6 +11,7 @@ public class Herd
     {
         _color = color;
         _cattleList = new HashSet<Cattle>();
+        _visitor = new CattleVisitor(_color);
     }
 
     public Color GetColor()
@@ -40,11 +41,6 @@ public class Herd
 
     public void Update()
     {
-        if (_visitor == null)
-        {
-            _visitor = new CattleVisitor(_color);
-        }
-
         foreach(Cattle cattle in _cattleList)
         {
             cattle.Accept(_visitor);
