@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-using Cluster = System.Collections.Generic.List<UnityEngine.Transform>;
+using Debug = UnityEngine.Debug;
+
+using TransformList = System.Collections.Generic.List<UnityEngine.Transform>;
 
 public class HerdManager : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class HerdManager : MonoBehaviour
     [SerializeField] Generator _generator;
 
     ICollection<Herd> _herds;
-    List<Cluster> _cachedClustersList;
+    List<TransformList> _cachedClustersList;
     IHerdFactory _herdFactory;
 
     void Awake()
@@ -22,7 +25,7 @@ public class HerdManager : MonoBehaviour
         }
 
         _herds = new List<Herd>(_numActiveHerds);
-        _cachedClustersList = new List<Cluster>(_numActiveHerds);
+        _cachedClustersList = new List<TransformList>(_numActiveHerds);
         _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 1f, 0f, 1f);
 
         if (_numActiveHerds > 0)
@@ -52,8 +55,12 @@ public class HerdManager : MonoBehaviour
     void UpdateClusters()
     {
         ClearHerds();
+        Stopwatch sw = Stopwatch.StartNew();
         GenerateClusters();
         AssignClustersToHerds();
+        sw.Stop();
+
+        Debug.Log("KMeans took " + sw.ElapsedTicks + " ticks.");
         UpdateHerds();
     }
 
@@ -67,9 +74,9 @@ public class HerdManager : MonoBehaviour
 
     private void GenerateClusters()
     {
-        List<Transform> activeObjectTransforms = _generator.GetActiveObjects().Select((go) => go.transform).ToList();
+        TransformList activeObjectTransforms = _generator.GetActiveObjects().Select((go) => go.transform).ToList();
         
-        KMeans.Naive(
+        KMeans.PlusPlus(
             activeObjectTransforms,
             _cachedClustersList,
             _numActiveHerds,
@@ -80,15 +87,18 @@ public class HerdManager : MonoBehaviour
     private void AssignClustersToHerds()
     {
         IEnumerator<Herd> herdEnumerator = _herds.GetEnumerator();
-        IEnumerator<Cluster> clusterEnumerator = _cachedClustersList.GetEnumerator();
+        IEnumerator<TransformList> clusterEnumerator = _cachedClustersList.GetEnumerator();
 
         while (herdEnumerator.MoveNext() && clusterEnumerator.MoveNext())
         {
             AssignClusterToHerd(clusterEnumerator.Current, herdEnumerator.Current);
         }
+
+        herdEnumerator.Dispose();
+        clusterEnumerator.Dispose();
     }
 
-    private void AssignClusterToHerd(Cluster cluster, Herd herd)
+    private void AssignClusterToHerd(TransformList cluster, Herd herd)
     {
         foreach (Transform cattleTransform in cluster)
         {
@@ -109,7 +119,7 @@ public class HerdManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             _herds.Add(_herdFactory.Create());
-            _cachedClustersList.Add(new Cluster());
+            _cachedClustersList.Add(new TransformList());
         }
     }
 }

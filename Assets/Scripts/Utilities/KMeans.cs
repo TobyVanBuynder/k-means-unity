@@ -6,6 +6,8 @@ using UnityEngine;
 public static class KMeans
 {
     public enum Dimensions{ TWO, THREE }
+
+    // TODO: move these to parameters
     private static int MAX_ITERATIONS{ get{ return 20; }}
     private static float MAX_ERROR_RATE{ get{ return 0.3f; }}
 
@@ -43,7 +45,7 @@ public static class KMeans
             // Make sure the clusters are empty
             foreach(List<Transform> tfList in finalClusters)
             {
-                if(tfList.Count > 0) tfList.RemoveAll((tf) => true);
+                if(tfList.Count > 0) tfList.Clear();
             }
 
             // Start comparing distances per other data point in the set, excluding the preselected data points
@@ -118,7 +120,7 @@ public static class KMeans
     // Optimized initialization method 
     // https://www.geeksforgeeks.org/ml-k-means-algorithm/
     // http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
-    public static (float[] distributions, float errorRate, int iterations) PlusPlus(List<Transform> dataSet, ref List<Transform>[] finalClusters, int numClusters, int initialRandomIndex = -1, Dimensions dimensions = Dimensions.THREE)
+    public static (float[] distributions, float errorRate, int iterations) PlusPlus(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int initialRandomIndex = -1)
     {
         // Pre-create needed variables
         List<Vector3> centroids = new List<Vector3>(numClusters);
