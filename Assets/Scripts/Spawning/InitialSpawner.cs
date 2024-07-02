@@ -3,11 +3,11 @@ using UnityEngine;
 public class InitialSpawner : MonoBehaviour
 {
     [SerializeField] private Generator _generator;
-    [SerializeField] private int _numInitialSpawn;
+    [SerializeField] private int _numInitialSpawns = 0;
 
     void Awake()
     {
-        if (_generator == null || _numInitialSpawn == 0)
+        if (_generator == null)
         {
             enabled = false;
         }
@@ -15,6 +15,9 @@ public class InitialSpawner : MonoBehaviour
 
     void Start()
     {
-        _generator.Spawn(_numInitialSpawn);
+        if (_numInitialSpawns > 0)
+        {
+            _generator.SetNumberOfSpawns(_numInitialSpawns);
+        }
     }
 }

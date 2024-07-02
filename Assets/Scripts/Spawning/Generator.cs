@@ -21,7 +21,7 @@ public class Generator : MonoBehaviour, IGenerator
         _spawnedObjects = new List<GameObject>();
     }
 
-    public void Spawn(int count)
+    public void SetNumberOfSpawns(int count)
     {
         if (count < 1)
         {
@@ -64,8 +64,8 @@ public class Generator : MonoBehaviour, IGenerator
         {
             iterator.MoveNext();
             iterator.Current.transform.SetPositionAndRotation(
-                Utils.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
-                Utils.RandomScaledQuaternion(Vector3.up)
+                Utils.Math.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
+                Utils.Math.RandomScaledQuaternion(Vector3.up)
             );
         }
 
@@ -113,8 +113,8 @@ public class Generator : MonoBehaviour, IGenerator
     {
         return Instantiate(
             _prefabToSpawn,
-            Utils.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
-            Utils.RandomScaledQuaternion(Vector3.up),
+            Utils.Math.RandomPositionInCircle(GetFloorPosition(), _spawnRadius),
+            Utils.Math.RandomScaledQuaternion(Vector3.up),
             _parentTransform
         );
     }

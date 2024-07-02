@@ -9,6 +9,7 @@ public class CattleVisual : MonoBehaviour, ICattleVisual
         if (TryGetComponent(out Renderer renderer))
         {
             _renderer = renderer;
+            Reset();
         }
         else
         {
@@ -18,11 +19,16 @@ public class CattleVisual : MonoBehaviour, ICattleVisual
 
     public void Reset()
     {
-        _renderer.material.color = Color.white;
+        SetRingColor(Color.clear);
     }
 
     public void SetColor(Color color)
     {
-        _renderer.material.color = color;
+        SetRingColor(color);
+    }
+
+    private void SetRingColor(Color color)
+    {
+        _renderer.material.SetColor("_RingColor", color);
     }
 }

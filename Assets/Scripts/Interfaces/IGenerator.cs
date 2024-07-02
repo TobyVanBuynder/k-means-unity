@@ -4,6 +4,6 @@ using UnityEngine;
 public interface IGenerator
 {
     List<GameObject> GetActiveObjects();
-    void Spawn(int count);
+    void SetNumberOfSpawns(int count);
     int GetActiveCount();
 }

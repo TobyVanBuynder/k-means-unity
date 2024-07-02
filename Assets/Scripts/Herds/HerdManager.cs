@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,7 +27,7 @@ public class HerdManager : MonoBehaviour
 
         _herds = new List<Herd>(_numActiveHerds);
         _cachedClustersList = new List<TransformList>(_numActiveHerds);
-        _herdFactory = new RandomHerdFactory(0f, 1f, 0.6f, 1f, 0.5f, 1f);
+        _herdFactory = new PresetHerdFactory();
 
         if (_numActiveHerds > 0)
         {
@@ -34,8 +35,30 @@ public class HerdManager : MonoBehaviour
         }
     }
 
-    // TODO: implement with UI
-    void SetNumberOfHerds(int numHerds)
+    void OnEnable()
+    {
+        GlobalEvents.Rescatter += OnRescatter;
+        GlobalEvents.RunKmeans += OnRunKmeans;
+    }
+
+    void OnDisable()
+    {
+        GlobalEvents.Rescatter -= OnRescatter;
+        GlobalEvents.RunKmeans -= OnRunKmeans;
+    }
+
+    private void OnRescatter()
+    {
+        _generator.ScatterActiveObjects();
+        UpdateClusters();
+    }
+
+    private void OnRunKmeans()
+    {
+        UpdateClusters();
+    }
+
+    public void SetNumberOfHerds(int numHerds)
     {
         if (numHerds > _numActiveHerds)
         {
@@ -47,20 +70,11 @@ public class HerdManager : MonoBehaviour
         UpdateClusters();
     }
 
-    public void ForceUpdateClusters()
-    {
-        UpdateClusters();
-    }
-
     void UpdateClusters()
     {
         ClearHerds();
-        Stopwatch sw = Stopwatch.StartNew();
         GenerateClusters();
         AssignClustersToHerds();
-        sw.Stop();
-
-        Debug.Log("KMeans took " + sw.ElapsedTicks + " ticks.");
         UpdateHerds();
     }
 

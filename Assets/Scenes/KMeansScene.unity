@@ -133,28 +133,14 @@ GameObject:
   m_Component:
   - component: {fileID: 230844538}
   - component: {fileID: 230844537}
-  - component: {fileID: 230844536}
+  - component: {fileID: 230844539}
   m_Layer: 0
-  m_Name: CattleSpawner
+  m_Name: Spawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &230844536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230844535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bf46ed88ca214749bb3c896056dd935, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _generator: {fileID: 230844537}
-  _numInitialSpawn: 16
 --- !u!114 &230844537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +173,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &230844539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230844535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f364155a6828d41a6ca9d0235aedb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _generator: {fileID: 230844537}
+  _numCurrentSpawn: 10
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,6 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 572678328}
   - component: {fileID: 572678327}
+  - component: {fileID: 572678329}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -491,6 +492,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &572678329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572678326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f42135bb5ae04e40964febe7d48aa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiMenuPanel: {fileID: 572678327}
 --- !u!1 &599538849
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +515,7 @@ GameObject:
   m_Component:
   - component: {fileID: 599538851}
   - component: {fileID: 599538850}
+  - component: {fileID: 599538852}
   m_Layer: 0
   m_Name: HerdManager
   m_TagString: Untagged
@@ -520,7 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1bf050a2c88b34d940c131df35e4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numActiveHerds: 4
+  _numActiveHerds: 2
   _generator: {fileID: 230844537}
 --- !u!4 &599538851
 Transform:
@@ -537,6 +552,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599538852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599538849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603f4f86fcdb25f48b0d63d5bf95024c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _herdManager: {fileID: 599538850}
 --- !u!1 &693370630
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +790,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!64 &1485343365
 MeshCollider:
