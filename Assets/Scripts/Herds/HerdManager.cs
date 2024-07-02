@@ -103,9 +103,11 @@ public class HerdManager : MonoBehaviour
         IEnumerator<Herd> herdEnumerator = _herds.GetEnumerator();
         IEnumerator<TransformList> clusterEnumerator = _cachedClustersList.GetEnumerator();
 
-        while (herdEnumerator.MoveNext() && clusterEnumerator.MoveNext())
+        int currentClusterIndex = 0;
+        while (herdEnumerator.MoveNext() && clusterEnumerator.MoveNext() && currentClusterIndex < _numActiveHerds)
         {
             AssignClusterToHerd(clusterEnumerator.Current, herdEnumerator.Current);
+            currentClusterIndex++;
         }
 
         herdEnumerator.Dispose();

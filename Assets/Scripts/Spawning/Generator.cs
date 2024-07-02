@@ -104,7 +104,7 @@ public class Generator : MonoBehaviour, IGenerator
 
     private Vector3 GetFloorPosition()
     {
-        Vector3 floorPosition = transform.position;
+        Vector3 floorPosition = _parentTransform.position;
         floorPosition.y = 0;
         return floorPosition;
     }
@@ -126,7 +126,7 @@ public class Generator : MonoBehaviour, IGenerator
 
     void OnDrawGizmos() {
         Gizmos.color = _gizmoColor;
-        Gizmos.DrawWireSphere(transform.position, _spawnRadius);
+        Gizmos.DrawWireSphere(_parentTransform.position, _spawnRadius);
     }
     #endif
 }

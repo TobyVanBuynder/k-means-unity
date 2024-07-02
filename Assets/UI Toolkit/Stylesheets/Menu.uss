@@ -50,10 +50,10 @@
     background-color: white;
     border-width: 0;
     border-radius: 4px;
-
 }
+
 .menu-slider .unity-base-slider__dragger {
-    background-color: #97714a;
+    background-color: rgb(151, 113, 74);
     border-radius: 100px;
     border-color: black;
     width: 16px;
@@ -63,7 +63,7 @@
 }
 
 .menu-slider .unity-base-slider__dragger:hover {
-    background-color: #b48d66;
+    background-color: rgb(180, 141, 102);
 }
 
 .menu-button {
