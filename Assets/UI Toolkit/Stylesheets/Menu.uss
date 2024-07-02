@@ -1,0 +1,79 @@
+.menu-panel {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/tan_inlay.png?fileID=2800000&guid=4b44204de1b1a0b48951b47794692699&type=3#tan_inlay");
+    -unity-slice-left: 1;
+    -unity-slice-top: 1;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.menu-title {
+    -unity-font-style: bold;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.menu-slider {
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+    -unity-text-align: upper-left;
+}
+
+.menu-slider .unity-base-slider__label {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    min-width: 80px;
+}
+
+.menu-slider .unity-base-slider__tracker {
+    background-color: white;
+    border-width: 0;
+    border-radius: 4px;
+}
+
+.menu-slider .unity-base-slider__dragger {
+    background-color: rgb(151, 113, 74);
+    border-radius: 100px;
+    border-color: black;
+    width: 16px;
+    height: 16px;
+    justify-content: center;
+    margin-top: -8px;
+}
+
+.menu-slider .unity-base-slider__dragger:hover {
+    background-color: rgb(180, 141, 102);
+}
+
+.menu-button {
+    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/brown.png?fileID=2800000&guid=94355ee0408e9ec42867b2fb645ea595&type=3#brown");
+    -unity-slice-left: 4;
+    -unity-slice-top: 4;
+    -unity-slice-right: 4;
+    -unity-slice-bottom: 4;
+    -unity-slice-scale: 1px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    border-width: 0;
+}
