@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/Menu.uss?fileID=7433441132597879392&amp;guid=f213b419cf5162041a0bce5e3122adb8&amp;type=3#Menu" />
+    <ui:GroupBox name="Menu" view-data-key="kmeans-menu" class="menu-panel">
+        <ui:Label tabindex="-1" text="K-Means Clustering Demo" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="menu-title" />
+        <ui:SliderInt label="Herds" high-value="10" name="NumHerdSlider" low-value="1" show-input-field="false" direction="Horizontal" inverted="false" class="menu-slider" />
+        <ui:SliderInt label="Cows" high-value="100" name="NumCattleSlider" show-input-field="false" low-value="10" class="menu-slider" />
+        <ui:Button text="Rescatter" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RescatterButton" class="menu-button" style="background-image: url(&quot;project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/brown.png?fileID=2800000&amp;guid=94355ee0408e9ec42867b2fb645ea595&amp;type=3#brown&quot;);" />
+        <ui:Button text="Run K-Means" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RunKmeansButton" class="menu-button" />
+    </ui:GroupBox>
+</ui:UXML>
