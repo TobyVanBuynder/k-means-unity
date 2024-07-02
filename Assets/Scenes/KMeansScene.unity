@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1bf050a2c88b34d940c131df35e4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numActiveHerds: 2
+  _numActiveHerds: 4
   _generator: {fileID: 230844537}
 --- !u!4 &599538851
 Transform:
