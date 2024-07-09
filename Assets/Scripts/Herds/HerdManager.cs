@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-
-using Debug = UnityEngine.Debug;
 
 using TransformList = System.Collections.Generic.List<UnityEngine.Transform>;
 
@@ -16,6 +12,7 @@ public class HerdManager : MonoBehaviour
     ICollection<Herd> _herds;
     List<TransformList> _cachedClustersList;
     IHerdFactory _herdFactory;
+    IKMeansStrategy _kMeansStrategy = new KMeansPlusPlus2DStrategy();
 
     void Awake()
     {
@@ -89,13 +86,10 @@ public class HerdManager : MonoBehaviour
     private void GenerateClusters()
     {
         TransformList activeObjectTransforms = _generator.GetActiveObjects().Select((go) => go.transform).ToList();
-        
-        KMeans.PlusPlus(
-            activeObjectTransforms,
-            _cachedClustersList,
-            _numActiveHerds,
-            KMeans.Dimensions.TWO
-        );
+
+        GlobalEvents.BeforeKmeans?.Invoke();
+        KMeans.Stats kmeansStats = _kMeansStrategy.Execute(activeObjectTransforms, _cachedClustersList, _numActiveHerds);
+        GlobalEvents.AfterKmeans?.Invoke(kmeansStats, _kMeansStrategy.ToString());
     }
 
     private void AssignClustersToHerds()

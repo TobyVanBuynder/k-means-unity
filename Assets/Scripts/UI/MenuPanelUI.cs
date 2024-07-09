@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UIMenuPanel : MonoBehaviour
+public class MenuPanelUI : MonoBehaviour
 {
-    [SerializeField] UIDocument _uiMenuPanel;
+    [SerializeField] UIDocument _uiDocument;
 
     SliderInt _herdSlider;
     Label _numHerdsLabel;
@@ -16,7 +16,7 @@ public class UIMenuPanel : MonoBehaviour
 
     void Awake()
     {
-        if (_uiMenuPanel == null)
+        if (_uiDocument == null)
         {
             enabled = false;
         }
@@ -24,7 +24,7 @@ public class UIMenuPanel : MonoBehaviour
 
     void Start()
     {
-        InitializeVariablesFromRoot(_uiMenuPanel.rootVisualElement);
+        InitializeVariablesFromRoot(_uiDocument.rootVisualElement);
         HookIntoEvents();
         UpdateNumHerdsLabel(_herdSlider.value);
         UpdateNumCattleLabel(_cattleSlider.value);

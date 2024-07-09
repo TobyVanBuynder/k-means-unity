@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/Menu.uss?fileID=7433441132597879392&amp;guid=f213b419cf5162041a0bce5e3122adb8&amp;type=3#Menu" />
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/MenuPanelUI.uss?fileID=7433441132597879392&amp;guid=796905e52b178a943b230fb3f9e1e8d4&amp;type=3#MenuPanelUI" />
     <ui:GroupBox name="Menu" view-data-key="kmeans-menu" class="menu-panel">
         <ui:Label tabindex="-1" text="K-Means Clustering Demo" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="menu-title" />
         <ui:VisualElement name="SliderGroup" class="menu-slider-group">

@@ -1,0 +1,32 @@
+.stats-list {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/tan_inlay.png?fileID=2800000&guid=4b44204de1b1a0b48951b47794692699&type=3#tan_inlay");
+    -unity-slice-left: 1;
+    -unity-slice-top: 1;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 250px;
+    height: 400px;
+    justify-content: flex-end;
+}
+
+.stats-list__entry {
+    -unity-font-style: normal;
+    -unity-text-align: middle-right;
+    font-size: 14px;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    margin-bottom: 4px;
+}
