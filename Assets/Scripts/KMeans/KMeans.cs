@@ -23,6 +23,8 @@ public static class KMeans
         {
             return $"Distributions: {Distributions},\nError Rate: {ErrorRate},\nNumIterations: {NumIterations}";
         }
+
+        public static Stats Null => new(new float[0], -1f, -1);
     }
 
     public enum Dimensions{ TWO = 0, THREE = 1 }
