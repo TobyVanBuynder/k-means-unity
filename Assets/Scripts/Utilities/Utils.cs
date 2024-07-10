@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public static class Utils
+namespace Utils
 {
     public static class Math
     {
@@ -36,6 +36,16 @@ public static class Utils
         public static Vector3 RandomEulerAngles()
         {
             return new Vector3(RandomAngleDeg(), RandomAngleDeg(), RandomAngleDeg());
+        }
+
+        public static float ConvertTicksToMilliseconds(int ticks)
+        {
+            return ticks * 0.0001f;
+        }
+
+        public static float ConvertTicksToMilliseconds(long ticks)
+        {
+            return ticks * 0.0001f;
         }
     }
     

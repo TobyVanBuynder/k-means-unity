@@ -25,6 +25,7 @@ public class KMeansTimer : MonoBehaviour
     void OnAfterKmeans(KMeans.Stats kmeansStats, string kmeansName)
     {
         _stopwatch.Stop();
-        GlobalEvents.KmeansTimeTaken?.Invoke(kmeansStats, kmeansName, (int)_stopwatch.ElapsedMilliseconds);
+        float milliseconds = Utils.Math.ConvertTicksToMilliseconds(_stopwatch.ElapsedTicks);
+        GlobalEvents.KmeansTimeTaken?.Invoke(kmeansStats, kmeansName, milliseconds);
     }
 }

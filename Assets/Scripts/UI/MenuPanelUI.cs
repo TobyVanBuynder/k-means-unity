@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,8 @@ public class MenuPanelUI : MonoBehaviour
 
     SliderInt _cattleSlider;
     Label _numCattleLabel;
+    
+    EnumField _kmeansTypeEnum;
 
     Button _rescatterButton;
     Button _runKmeansButton;
@@ -38,6 +41,8 @@ public class MenuPanelUI : MonoBehaviour
         _cattleSlider = root.Q<SliderInt>("NumCattleSlider");
         _numCattleLabel = root.Q<Label>("NumCattle");
 
+        _kmeansTypeEnum = root.Q<EnumField>("KMeansTypeEnum");
+
         _rescatterButton = root.Q<Button>("RescatterButton");
         _runKmeansButton = root.Q<Button>("RunKmeansButton");
     }
@@ -45,11 +50,17 @@ public class MenuPanelUI : MonoBehaviour
     private void HookIntoEvents()
     {
         _herdSlider.RegisterValueChangedCallback(OnHerdSliderChanged);
-
         _cattleSlider.RegisterValueChangedCallback(OnCattleSliderChanged);
+
+        _kmeansTypeEnum.RegisterValueChangedCallback(OnKmeansTypeChanged);
 
         _rescatterButton.clicked += OnRescatterButtonClicked;
         _runKmeansButton.clicked += OnRunKmeansButtonClicked;
+    }
+
+    private void OnKmeansTypeChanged(ChangeEvent<Enum> evt)
+    {
+        GlobalEvents.ChangeKmeansType?.Invoke((KMeansType)evt.newValue);
     }
 
     private void OnRescatterButtonClicked()

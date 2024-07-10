@@ -28,9 +28,9 @@ public class StatsUI : MonoBehaviour
         GlobalEvents.KmeansTimeTaken -= OnKmeansTimeTaken;
     }
 
-    void OnKmeansTimeTaken(KMeans.Stats kmeansStats, string kmeansName, int millisecondsTaken)
+    void OnKmeansTimeTaken(KMeans.Stats kmeansStats, string kmeansName, float milliseconds)
     {
-        Label newLabel = new Label(kmeansName + " took <b>" + millisecondsTaken + "ms</b> :\n" + kmeansStats.ToString());
+        Label newLabel = new Label(kmeansName + " took <b>" + milliseconds + "ms</b> :\n" + kmeansStats.ToString());
         newLabel.AddToClassList("stats-list__entry");
         _statsList.hierarchy.Add(newLabel);
     }
