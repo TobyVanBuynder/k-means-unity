@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-
-using Debug = UnityEngine.Debug;
 
 using TransformList = System.Collections.Generic.List<UnityEngine.Transform>;
 
@@ -16,6 +12,8 @@ public class HerdManager : MonoBehaviour
     ICollection<Herd> _herds;
     List<TransformList> _cachedClustersList;
     IHerdFactory _herdFactory;
+    IKMeansStrategy _kMeansStrategy;
+    IKMeansStrategyFactory _kMeansStrategyFactory;
 
     void Awake()
     {
@@ -28,6 +26,8 @@ public class HerdManager : MonoBehaviour
         _herds = new List<Herd>(_numActiveHerds);
         _cachedClustersList = new List<TransformList>(_numActiveHerds);
         _herdFactory = new PresetHerdFactory();
+        _kMeansStrategyFactory = new KMeans2DStrategyFactory();
+        _kMeansStrategy = _kMeansStrategyFactory.Create(KMeansType.Naive);
 
         if (_numActiveHerds > 0)
         {
@@ -37,14 +37,21 @@ public class HerdManager : MonoBehaviour
 
     void OnEnable()
     {
+        GlobalEvents.ChangeKmeansType += OnChangeKmeansType;
         GlobalEvents.Rescatter += OnRescatter;
         GlobalEvents.RunKmeans += OnRunKmeans;
     }
 
     void OnDisable()
     {
+        GlobalEvents.ChangeKmeansType -= OnChangeKmeansType;
         GlobalEvents.Rescatter -= OnRescatter;
         GlobalEvents.RunKmeans -= OnRunKmeans;
+    }
+
+    private void OnChangeKmeansType(KMeansType type)
+    {
+        _kMeansStrategy = _kMeansStrategyFactory.Create(type);
     }
 
     private void OnRescatter()
@@ -89,13 +96,10 @@ public class HerdManager : MonoBehaviour
     private void GenerateClusters()
     {
         TransformList activeObjectTransforms = _generator.GetActiveObjects().Select((go) => go.transform).ToList();
-        
-        KMeans.PlusPlus(
-            activeObjectTransforms,
-            _cachedClustersList,
-            _numActiveHerds,
-            KMeans.Dimensions.TWO
-        );
+
+        GlobalEvents.BeforeKmeans?.Invoke();
+        KMeans.Stats kmeansStats = _kMeansStrategy.Execute(activeObjectTransforms, _cachedClustersList, _numActiveHerds);
+        GlobalEvents.AfterKmeans?.Invoke(kmeansStats, _kMeansStrategy.ToString());
     }
 
     private void AssignClustersToHerds()

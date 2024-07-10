@@ -100,3 +100,50 @@
     font-size: 12px;
     -unity-font-style: bold;
 }
+
+.menu-enum {
+    flex-direction: row;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+.menu-enum .unity-enum-field__label {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    min-width: 60px;
+    -unity-text-align: middle-left;
+}
+
+.menu-enum .unity-enum-field__input {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/panelInset_brown.png?fileID=2800000&guid=fc1c2bfcdcc2c19458285a7ed73685cb&type=3#panelInset_brown");
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    color: rgb(255, 255, 255);
+    -unity-slice-left: 4;
+    -unity-slice-top: 2;
+    -unity-slice-right: 4;
+    -unity-slice-bottom: 2;
+}
+
+.menu-enum .unity-enum-field__arrow {
+    width: 8px;
+    height: 8px;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/arrowSilver_down.png?fileID=2800000&guid=84d788bf60ec03045b45c797280bb687&type=3#arrowSilver_down");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}

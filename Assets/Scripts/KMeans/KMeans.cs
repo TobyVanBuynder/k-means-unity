@@ -1,19 +1,42 @@
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
 
 public static class KMeans
 {
-    public enum Dimensions{ TWO, THREE }
+    public readonly struct Stats
+    {
+        public readonly float[] Distributions{ get; }
+        public readonly float ErrorRate{ get; }
+        public readonly int NumIterations{ get; }
+
+        public Stats(float[] distributions, float errorRate, int numIterations)
+        {
+            Distributions = distributions;
+            ErrorRate = errorRate;
+            NumIterations = numIterations;
+        }
+
+        public override string ToString()
+        {
+            return $"Distributions: {Distributions},\nError Rate: {ErrorRate},\nNumIterations: {NumIterations}";
+        }
+
+        public static Stats Null => new(new float[0], -1f, -1);
+    }
+
+    public enum Dimensions{ TWO = 0, THREE = 1 }
 
     // TODO: update Naive with PlusPlus improvements
-    public static (float[] distributions, float errorRate, int iterations) Naive(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 1.5f)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Stats Naive(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 1.5f)
     {
         // Pre-create needed variables
         List<Vector3> centroids = new List<Vector3>(numClusters);
         float[] distributions = new float[numClusters];
-        float errorRate = 0f;
+        float errorRate;
 
         // Randomly select numClusters amount of data points from the data set
         using (RNGUnique uniqueRandom = new RNGUnique(numClusters))
@@ -32,10 +55,10 @@ public static class KMeans
             enumerator.Dispose();
         }
 
-        int it = 0;
+        int numIterations = 0;
         do
         {
-            it++;
+            numIterations++;
             errorRate = 0f;
 
             // Make sure the clusters are empty
@@ -50,7 +73,7 @@ public static class KMeans
                 // Tracking variables
                 Transform currentDataPoint = dataSet[d];
                 int assignedCluster = -1;
-                float minDistance = Mathf.Infinity;
+                float leastDistance = Mathf.Infinity;
 
                 // Loop over all initial cluster points
                 for (int c = 0; c < numClusters; c++)
@@ -59,11 +82,12 @@ public static class KMeans
                     Vector3 distanceVector = centroids[c] - currentDataPoint.position;
 
                     // If there's two dimensions, ignore Y-value
-                    if (dimensions == Dimensions.TWO)
-                        distanceVector.y = 0;
+                    distanceVector.Set(distanceVector.x, (int)dimensions * distanceVector.y, distanceVector.z);
+
+                    float distance = distanceVector.sqrMagnitude;
 
                     // If the distance is shorter than the previous minimum distance
-                    if (distanceVector.magnitude < minDistance)
+                    if (distance < leastDistance)
                     {
                         // If there was already an assigned cluster, remove it from that one
                         if (assignedCluster > -1)
@@ -74,7 +98,7 @@ public static class KMeans
 
                         // Set new tracking variables
                         assignedCluster = c;
-                        minDistance = distanceVector.magnitude;
+                        leastDistance = distance;
                     }
                 }
             }
@@ -95,29 +119,26 @@ public static class KMeans
                 // Calculate dot squared distance distribution average per cluster
                 distributions[c] = 0;
                 foreach (Transform tf in finalClusters[c])
-                {
-                    distributions[c] += Vector3.Distance(tf.position, currentCentroid);
-                }
+                    distributions[c] += (tf.position - currentCentroid).sqrMagnitude;
                 distributions[c] /= finalClusters[c].Count;
             }
 
             // Calculate average error rate of all clusters combined
             for (int d = 0; d < numClusters - 1; d++)
-            {
                 errorRate += Mathf.Abs(distributions[d] - distributions[d+1]);
-            }
             errorRate += Mathf.Abs(distributions[0] - distributions[numClusters-1]);
             errorRate = Mathf.Sqrt(errorRate / numClusters);
-        } while ((errorRate > maxErrorRate) && (it < maxIterations));
+        } while ((errorRate > maxErrorRate) && (numIterations < maxIterations));
 
-        return (distributions, errorRate, it);
+        return new Stats(distributions, errorRate, numIterations);
     }
 
     // Optimized initialization method 
     // https://www.geeksforgeeks.org/ml-k-means-algorithm/
     // http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
     // Much more accurate at the cost of extra power
-    public static (float[] distributions, float errorRate, int iterations) PlusPlus(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 0.3f, int initialRandomIndex = -1)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Stats PlusPlus(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 0.3f, int initialRandomIndex = -1)
     {
         // Pre-create needed variables
         List<Vector3> centroids = new List<Vector3>(numClusters);
@@ -126,8 +147,8 @@ public static class KMeans
         float[] distributions = new float[numClusters];
         float avgExpectedDistribution = 1 / numClusters;
         float avgExpectedDistributionCount = dataSet.Count / numClusters;
-        float errorRate = 0f;
-        int iterations = 0;
+        int numIterations = 0;
+        float errorRate;
 
         do
         {
@@ -139,7 +160,7 @@ public static class KMeans
             }
 
             reiterate = false;
-            iterations++;
+            numIterations++;
             errorRate = 0f;
 
             // ----- Start K-Means++ -----
@@ -147,7 +168,8 @@ public static class KMeans
 
             // Randomly select the first cluster
             // If it isn't pregenerated yet, generate one
-            if(randomIndices[0] < 0) randomIndices[0] = Random.Range(0, dataSet.Count);
+            if(randomIndices[0] < 0)
+                randomIndices[0] = Random.Range(0, dataSet.Count);
             centroids.Add(dataSet[randomIndices[0]].position);
 
             // For each remaining cluster to be chosen,
@@ -182,11 +204,18 @@ public static class KMeans
                     for(int p = 0; p < c; p++)
                     {
                         int prevChosenIndex = randomIndices[p];
-                        float dist = Vector3.Distance(dataSet[prevChosenIndex].position, dataSet[d].position);
-                        if (dist > furthestDistance)
+
+                        Vector3 distanceVector = dataSet[prevChosenIndex].position - dataSet[d].position;
+
+                        // If there's two dimensions, ignore Y-value
+                        distanceVector.Set(distanceVector.x, (int)dimensions * distanceVector.y, distanceVector.z);
+
+                        float distance = distanceVector.sqrMagnitude;
+
+                        if (distance > furthestDistance)
                         {
                             randomIndices[c] = d;
-                            furthestDistance = dist;
+                            furthestDistance = distance;
                         }
                     }
                 }
@@ -220,12 +249,14 @@ public static class KMeans
                     // If there's two dimensions, ignore Y-value
                     distanceVector.Set(distanceVector.x, (int)dimensions * distanceVector.y, distanceVector.z);
 
+                    float distance = distanceVector.sqrMagnitude;
+
                     // If the distance is shorter than the previous minimum distance
-                    if (distanceVector.magnitude < minDistance)
+                    if (distance < minDistance)
                     {
                         // Set new assigned cluster index and minimum distance
                         assignedCluster = c;
-                        minDistance = distanceVector.magnitude;
+                        minDistance = distance;
                     }
                 }
                 
@@ -242,9 +273,7 @@ public static class KMeans
                 // Calculate average position of cluster members
                 currentCentroid = Vector3.zero;
                 for(int t = 0; t < currentCluster.Count; t++)
-                {
                     currentCentroid += currentCluster[t].position;
-                }
                 centroids[c] = currentCentroid / currentCluster.Count;
 
                 // Calculate error of distribution  per cluster
@@ -253,16 +282,14 @@ public static class KMeans
 
             // Calculate average error rate of all clusters combined
             for (int d = 0; d < distributions.Length - 1; d++)
-            {
                 errorRate += Mathf.Abs(distributions[d] - avgExpectedDistribution);
-            }
             errorRate += Mathf.Abs(distributions[0] - avgExpectedDistribution);
             
             // Make sure the error is low enough
-            reiterate = errorRate > maxErrorRate && iterations < maxIterations;
+            reiterate = errorRate > maxErrorRate && numIterations < maxIterations;
 
         } while (reiterate);
 
-        return (distributions, errorRate, iterations);
+        return new Stats(distributions, errorRate, numIterations);
     }
 }
