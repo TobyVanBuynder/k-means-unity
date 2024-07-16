@@ -1,4 +1,4 @@
-.stats-list {
+.stats-panel {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -17,16 +17,26 @@
     padding-left: 10px;
     width: 250px;
     height: 400px;
-    justify-content: flex-end;
 }
 
-.stats-list__entry {
-    -unity-font-style: normal;
-    -unity-text-align: middle-right;
+.stats-title {
+    -unity-font-style: bold;
     font-size: 14px;
-    padding-top: 4px;
-    padding-right: 4px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.stats-list {
+    flex-grow: 1;
+}
+
+.stats-list .unity-scroll-view__content-container {
+    justify-content: flex-end;
+    padding-right: 8px;
 }

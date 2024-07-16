@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/StatsEntryTemplateStyle.uss?fileID=7433441132597879392&amp;guid=cdca0dcfba7aff64696eb690b2b0440b&amp;type=3#StatsEntryTemplateStyle" />
+    <ui:VisualElement name="StatsEntry" class="stats-entry-root">
+        <ui:Label tabindex="-1" text="KMeans Naive" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TypeLabel" class="stats-entry__type-label" />
+        <ui:VisualElement name="StatsHolder" class="stats-entry__stats-holder">
+            <ui:VisualElement name="TimeStat" tooltip="Time in milliseconds" class="stat-holder-time stat-holder p75-width">
+                <ui:Image name="Icon" class="stat-holder__icon stat-holder-time__icon" />
+                <ui:Label tabindex="-1" text="0.5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text" class="stat-holder__text" />
+            </ui:VisualElement>
+            <ui:VisualElement name="NumIterationsStat" tooltip="Number of iterations" class="stat-holder p25-width">
+                <ui:Image name="Icon" class="stat-holder__icon stat-holder-numiterations__icon" />
+                <ui:Label tabindex="-1" text="20" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text" class="stat-holder__text" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ErrorRateStat" tooltip="Error rate" class="stat-holder stat-holder-errorrate full-width">
+                <ui:Image name="Icon" class="stat-holder-errorrate__icon stat-holder__icon" />
+                <ui:Label tabindex="-1" text="20" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text" class="stat-holder__text" />
+            </ui:VisualElement>
+            <ui:VisualElement name="DistributionsStat" tooltip="Distributions" class="stat-holder-distributions stat-holder full-width">
+                <ui:Image name="Icon" class="stat-holder-distributions__icon stat-holder__icon" />
+                <ui:Label tabindex="-1" text="20" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text" class="stat-holder__text stat-holder-distributions__text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
