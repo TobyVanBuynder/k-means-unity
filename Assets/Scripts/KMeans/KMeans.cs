@@ -21,7 +21,7 @@ public static class KMeans
 
         public override string ToString()
         {
-            return $"Distributions: {Distributions},\nError Rate: {ErrorRate},\nNumIterations: {NumIterations}";
+            return $"Distributions: {string.Join(',', Distributions)},\nError Rate: {ErrorRate},\nNumIterations: {NumIterations}";
         }
 
         public static Stats Null => new(new float[0], -1f, -1);
@@ -29,7 +29,6 @@ public static class KMeans
 
     public enum Dimensions{ TWO = 0, THREE = 1 }
 
-    // TODO: update Naive with PlusPlus improvements
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Stats Naive(List<Transform> dataSet, List<List<Transform>> finalClusters, int numClusters, Dimensions dimensions = Dimensions.THREE, int maxIterations = 20, float maxErrorRate = 1.5f)
     {

@@ -2271,6 +2271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiDocument: {fileID: 607864286}
+  _statsEntryPrototype: {fileID: 9197481963319205126, guid: 654e8e95586085a498fece19a4273003,
+    type: 3}
 --- !u!114 &607864286
 MonoBehaviour:
   m_ObjectHideFlags: 0

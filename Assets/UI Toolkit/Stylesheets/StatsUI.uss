@@ -1,0 +1,97 @@
+.stats-panel {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/tan_inlay.png?fileID=2800000&guid=4b44204de1b1a0b48951b47794692699&type=3#tan_inlay");
+    -unity-slice-left: 1;
+    -unity-slice-top: 1;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 250px;
+    height: 400px;
+}
+
+.stats-title {
+    -unity-font-style: bold;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.stats-list {
+    flex-grow: 1;
+}
+
+.stats-list .unity-scroll-view__content-container {
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+
+.stats-list .unity-scroller {
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/panelInset_brown.png?fileID=2800000&guid=fc1c2bfcdcc2c19458285a7ed73685cb&type=3#panelInset_brown");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-slice-left: 4;
+    -unity-slice-top: 4;
+    -unity-slice-right: 4;
+    -unity-slice-bottom: 4;
+}
+
+.stats-list .unity-scroller__low-button {
+    width: 8px;
+    height: 8px;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/arrowSilver_up.png?fileID=2800000&guid=a5a9f387d9b94574ea890e3dae4127d0&type=3#arrowSilver_up");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    align-self: center;
+    margin-top: 8px;
+}
+
+.stats-list .unity-scroller__high-button {
+    width: 8px;
+    height: 8px;
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/arrowSilver_down.png?fileID=2800000&guid=84d788bf60ec03045b45c797280bb687&type=3#arrowSilver_down");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    margin-bottom: 8px;
+    align-self: center;
+}
+
+.stats-list .unity-scroller .unity-base-slider__dragger {
+    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/buttonSquare_beige.png?fileID=2800000&guid=6fa150a8cb9ffd54e9acacfb937a1b49&type=3#buttonSquare_beige");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-slice-left: 4;
+    -unity-slice-top: 8;
+    -unity-slice-right: 4;
+    -unity-slice-bottom: 8;
+}
+
+.stats-list .unity-scroller .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.stats-list .unity-scroller .unity-base-slider__input {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.stats-list .unity-scroller .unity-scroller-slider {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.stats-list .unity-scroller .unity-base-slider__tracker {
+    border-width: 0;
+}

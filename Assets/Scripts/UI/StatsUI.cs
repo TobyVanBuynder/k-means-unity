@@ -1,21 +1,24 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class StatsUI : MonoBehaviour
 {
-    [SerializeField] UIDocument _uiDocument;
+    [SerializeField] private UIDocument _uiDocument;
+    [SerializeField] private VisualTreeAsset _statsEntryPrototype;
 
-    ListView _statsList;
+    private IKMeansStatsUIEntryFactory _statsEntryFactory;
+    private ScrollView _statsList;
 
     void Awake()
     {
         InitializeVariablesFromRoot(_uiDocument.rootVisualElement);
+
+        _statsEntryFactory = new StatsUIEntryWithIconsFactory(_statsEntryPrototype);
     }
 
     private void InitializeVariablesFromRoot(VisualElement root)
     {
-        _statsList = root.Q<ListView>("StatsList");
+        _statsList = root.Q<ScrollView>("StatsList");
     }
 
     void OnEnable()
@@ -30,8 +33,7 @@ public class StatsUI : MonoBehaviour
 
     void OnKmeansTimeTaken(KMeans.Stats kmeansStats, string kmeansName, float milliseconds)
     {
-        Label newLabel = new Label(kmeansName + " took <b>" + milliseconds + "ms</b> :\n" + kmeansStats.ToString());
-        newLabel.AddToClassList("stats-list__entry");
-        _statsList.hierarchy.Add(newLabel);
+        VisualElement stats = _statsEntryFactory.Create(kmeansStats, kmeansName, milliseconds);
+        _statsList.contentContainer.Add(stats);
     }
 }
