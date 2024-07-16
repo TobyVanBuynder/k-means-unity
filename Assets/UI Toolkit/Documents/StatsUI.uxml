@@ -2,6 +2,6 @@
     <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/StatsUI.uss?fileID=7433441132597879392&amp;guid=b9d3160fcb53841408f14a4bbf4611fc&amp;type=3#StatsUI" />
     <ui:VisualElement name="StatsPanel" class="stats-panel">
         <ui:Label tabindex="-1" text="Stats Log" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatsTitle" class="stats-title" />
-        <ui:ScrollView name="StatsList" vertical-scroller-visibility="AlwaysVisible" class="stats-list" />
+        <ui:ScrollView name="StatsList" vertical-scroller-visibility="AlwaysVisible" nested-interaction-kind="ForwardScrolling" horizontal-scroller-visibility="Hidden" class="stats-list" />
     </ui:VisualElement>
 </ui:UXML>
