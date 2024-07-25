@@ -1,5 +1,26 @@
+.button-holder {
+    max-width: 32px;
+    max-height: 32px;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 10px;
+    position: relative;
+    left: auto;
+    justify-content: flex-end;
+    align-self: flex-end;
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: auto;
+    height: auto;
+    max-width: 32px;
+    max-height: 32px;
+    align-items: center;
+    flex-direction: row;
+}
+
 .button {
-    background-image: url('project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/buttonLong_brown.png?fileID=2800000&guid=1fa84883b83497846b6ad75f8991837e&type=3#buttonLong_brown');
+    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/brown.png?fileID=2800000&guid=94355ee0408e9ec42867b2fb645ea595&type=3#brown");
     -unity-slice-left: 4;
     -unity-slice-top: 4;
     -unity-slice-right: 4;
@@ -9,7 +30,7 @@
 }
 
 .exit-icon {
-    background-image: url("project://database/Assets/ThirdParty/Kenney_UIAdventurePack/PNG/iconCross_grey.png?fileID=2800000&guid=ae4928363b92fbe46979e20034080397&type=3#iconCross_grey");
+    background-image: url("project://database/Assets/ThirdParty/Kenney_BoardGameIcons/PNG/Default%20(64px)/arrow_diagonal_cross_edit.png?fileID=2800000&guid=e15e460a5836cc2429cb773ba657dcd9&type=3#arrow_diagonal_cross_edit");
     width: 16px;
     height: 16px;
     margin-top: 0;
@@ -30,7 +51,7 @@
     margin-left: 0;
     padding-top: 4px;
     padding-right: 0;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
     padding-left: 0;
     width: 32px;
     height: 32px;
@@ -41,25 +62,40 @@
     justify-content: center;
     align-self: auto;
     align-items: center;
-    background-image: url("project://database/Assets/ThirdParty/Kenney_PixelUiPack/9-Slice/Ancient/brown.png?fileID=2800000&guid=94355ee0408e9ec42867b2fb645ea595&type=3#brown");
 }
 
-.exit-button-holder {
-    max-width: 32px;
-    max-height: 32px;
-    top: 0;
-    right: 0;
-    margin-top: 10px;
-    margin-right: 10px;
-    position: relative;
-    left: auto;
-    justify-content: center;
-    align-self: flex-end;
-    flex-grow: 1;
+.fullscreen-button {
+    flex-grow: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 4px;
+    padding-right: 0;
+    padding-bottom: 6px;
+    padding-left: 0;
+    width: 32px;
+    height: 32px;
+    min-width: auto;
     flex-shrink: 0;
-    width: auto;
-    height: auto;
-    max-width: 32px;
-    max-height: 32px;
+    -unity-slice-right: 2;
+    -unity-slice-left: 2;
+    justify-content: center;
+    align-self: auto;
     align-items: center;
+    margin-right: 5px;
+}
+
+.fullscreen-icon {
+    background-image: url("project://database/Assets/ThirdParty/Kenney_BoardGameIcons/PNG/Default%20(64px)/arrow_diagonal_cross_divided.png?fileID=2800000&guid=b0769422bd0fe3941bfb7e95b43c907d&type=3#arrow_diagonal_cross_divided");
+    width: 16px;
+    height: 16px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    justify-content: space-around;
+    align-items: stretch;
+    align-self: auto;
+    flex-shrink: 0;
 }
