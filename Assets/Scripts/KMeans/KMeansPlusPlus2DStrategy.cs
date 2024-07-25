@@ -8,8 +8,7 @@ public class KMeansPlusPlus2DStrategy : IKMeansStrategy
         return KMeans.PlusPlus(
             dataSet,
             finalClusters,
-            numClusters,
-            KMeans.Dimensions.TWO
+            numClusters
         );
     }
 

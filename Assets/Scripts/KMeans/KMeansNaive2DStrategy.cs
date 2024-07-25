@@ -8,8 +8,7 @@ public class KMeansNaive2DStrategy : IKMeansStrategy
         return KMeans.Naive(
             dataSet,
             finalClusters,
-            numClusters,
-            KMeans.Dimensions.TWO
+            numClusters
         );
     }
 
