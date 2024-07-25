@@ -81,9 +81,6 @@ public static class KMeans
                     // Calculate the distance between the curently selected point and tbe currently selected centroid
                     Vector3 distanceVector = centroids[c] - currentDataPoint.position;
 
-                    // If there's two dimensions, ignore Y-value
-                    distanceVector.Set(distanceVector.x, (int)dimensions * distanceVector.y, distanceVector.z);
-
                     float distance = distanceVector.sqrMagnitude;
 
                     // If the distance is shorter than the previous minimum distance
@@ -152,7 +149,6 @@ public static class KMeans
         float avgExpectedDistribution = 1 / numClusters;
         float avgExpectedDistributionCount = dataSet.Count / numClusters;
         int numIterations = 0;
-        bool reiterate;
         float errorRate;
 
         do
@@ -162,9 +158,9 @@ public static class KMeans
             {
                 initialRandomIndex = -1;
                 centroids.Clear();
+                reiterate = false;
             }
 
-            reiterate = false;
             numIterations++;
             errorRate = 0f;
 
