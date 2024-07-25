@@ -56,7 +56,6 @@ public static class KMeans
         int numIterations = 0;
         do
         {
-            centroids.Clear();
             reiterate = false;
             numIterations++;
             errorRate = 0f;
