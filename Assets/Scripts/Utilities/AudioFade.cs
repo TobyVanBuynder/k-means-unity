@@ -14,6 +14,10 @@ public class AudioFade : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = 0f;
         _currentTimeOnCurve = 0f;
+
+        #if UNITY_WEBGL
+        enabled = false;
+        #endif
     }
 
     void Update()
